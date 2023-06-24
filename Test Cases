@@ -1,0 +1,60 @@
+Feature: Login functionality for various users
+
+  Scenario: Successful Login with valid standard_user credentials
+    Given The login page is opened
+    When The user logs in with username "standard_user" and password "secret_sauce"
+    Then The user should be redirected to the home page
+  
+  Scenario: Login attempt with locked_out_user
+    Given The login page is opened
+    When The user logs in with username "locked_out_user" and password "secret_sauce"
+    Then The user should receive a message indicating the account is locked
+
+  Scenario: Login attempt with problem_user
+    Given The login page is opened
+    When The user logs in with username "problem_user" and password "secret_sauce"
+    Then The user should experience problems with the system
+
+  Scenario: Login attempt with performance_glitch_user
+    Given The login page is opened
+    When The user logs in with username "performance_glitch_user" and password "secret_sauce"
+    Then The user should experience performance issues
+
+  Scenario: Login attempt with invalid password
+    Given The login page is opened
+    When The user logs in with username "standard_user" and password "invalid_password"
+    Then The user should receive an error message for invalid credentials
+
+  Scenario: Login attempt with invalid username
+    Given The login page is opened
+    When The user logs in with username "invalid_user" and password "secret_sauce"
+    Then The user should receive an error message for invalid credentials
+
+
+Feature: Shopping cart functionality
+
+  Background: 
+    Given The user has logged in with username "standard_user" and password "secret_sauce"
+    And The user is on the product page
+
+  Scenario: Adding a single product to the cart
+    When The user adds the "Sauce Labs Backpack" to the cart
+    And The user goes to the shopping cart page
+    Then The "Sauce Labs Backpack" should be in the shopping cart
+
+  Scenario: Adding multiple products to the cart
+    When The user adds the "Sauce Labs Backpack", "Sauce Labs Bike Light", "Sauce Labs Bolt T-Shirt", "Sauce Labs Fleece Jacket", "Sauce Labs Onesie", "Test.allTheThings() T-Shirt (Red)" to the cart
+    And The user goes to the shopping cart page
+    Then The "Sauce Labs Backpack", "Sauce Labs Bike Light", "Sauce Labs Bolt T-Shirt", "Sauce Labs Fleece Jacket", "Sauce Labs Onesie", "Test.allTheThings() T-Shirt (Red)" should be in the shopping cart
+
+  Scenario: Removing a single product from the cart
+    Given The user has the "Sauce Labs Backpack" in the shopping cart
+    When The user removes the "Sauce Labs Backpack" from the cart
+    And The user goes to the shopping cart page
+    Then The "Sauce Labs Backpack" should not be in the shopping cart
+
+  Scenario: Removing multiple products from the cart
+    Given The user has the "Sauce Labs Backpack", "Sauce Labs Bike Light", "Sauce Labs Bolt T-Shirt", "Sauce Labs Fleece Jacket", "Sauce Labs Onesie", "Test.allTheThings() T-Shirt (Red)" in the shopping cart
+    When The user removes the "Sauce Labs Backpack", "Sauce Labs Bike Light", "Sauce Labs Bolt T-Shirt", "Sauce Labs Fleece Jacket", "Sauce Labs Onesie", "Test.allTheThings() T-Shirt (Red)" from the cart
+    And The user goes to the shopping cart page
+    Then The "Sauce Labs Backpack", "Sauce Labs Bike Light", "Sauce Labs Bolt T-Shirt", "Sauce Labs Fleece Jacket", "Sauce Labs Onesie", "Test.allTheThings() T-Shirt (Red)" should not be in the shopping cart
